@@ -40,6 +40,13 @@ contract Bank {
     receive() external payable {
         _recordDeposit(msg.sender, msg.value);
     }
+    fallback() external payable {
+        //_recordDeposit(msg.sender, msg.value);
+    }
+    //虚拟环境测试用
+    function recvETH() public payable {
+        _recordDeposit(msg.sender, msg.value);
+    }
     
     // 记录存款并更新排名
     function _recordDeposit(address depositor, uint256 amount) private {
