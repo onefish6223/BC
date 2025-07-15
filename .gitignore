@@ -1,5 +1,6 @@
 # Solidity 开发标准忽略文件
 .deps
+.states
 # 依赖项
 node_modules/
 package-lock.json
