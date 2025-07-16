@@ -75,6 +75,7 @@ contract TokenBankV2 is TokenBank{
     constructor(address _tokenAddress) TokenBank(_tokenAddress){
         token = IERC20WithCallback(_tokenAddress);
     }
+    bytes public tdata;
 
     // 通过transferWithCallback直接存款
     function tokensReceived(
@@ -88,7 +89,7 @@ contract TokenBankV2 is TokenBank{
         
         // 确保接收者是本合约
         require(recipient == address(this), "Invalid recipient");
-        
+        tdata = data;
         // 更新用户余额
         balances[sender] += amount;
         
