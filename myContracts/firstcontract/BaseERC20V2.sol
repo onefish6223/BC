@@ -33,8 +33,9 @@ abstract contract ERC20WithCallback is ERC20 {
                     data
                 )
             {} catch (bytes memory reason) {
-                // 回调失败不影响转账，但可以记录日志
+                //可以记录日志
                 emit CallbackFailed(recipient, reason);
+                revert("CallbackFailed");
             }
         }
         return true;

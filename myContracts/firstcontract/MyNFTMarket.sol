@@ -45,12 +45,15 @@ contract MyNFTMarket is Ownable {
 
         nftToListing[nftContract][tokenId] = listingId;
 
+        //这个方法暂时不能调 需要实现回调 ERC721Utils.sol,使用在不需要授权的业务场景--由用户在NFT合约直接调用，该合约内单独实现回调函数onERC721Received();
+        // IERC721(nftContract).safeTransferFrom(msg.sender, address(this), tokenId);
         // 将 NFT 从卖家地址转到合约地址以避免交易后卖家撤销. 需要持有者 先在ERC721合约对NFTMarket合约地址进行授权
-        IERC721(nftContract).safeTransferFrom(msg.sender, address(this), tokenId);
-
+        IERC721(nftContract).transferFrom(msg.sender, address(this), tokenId);
+        
         emit Listed(listingId, msg.sender, nftContract, tokenId, price);
     }
 
+    uint256 public testdata;
     // 回调函数
     // 用户通过在ERC20合约里调用ERC20的ransferWithCallback函数 触发此函数 
     function tokensReceived(
@@ -66,6 +69,8 @@ contract MyNFTMarket is Ownable {
         require(recipient == address(this), "Invalid recipient");
         // 确保标识有效
         uint256 listingId = abi.decode(data,(uint256));
+
+        
         Listing memory listing = listings[listingId];
         require(listing.price > 0, "This NFT is not for sale");
         uint256 price = listing.price;
@@ -77,7 +82,7 @@ contract MyNFTMarket is Ownable {
         // 从当前合约账户转账代币到卖家
         paymentToken.transferFrom(address(this), seller, price);
         // 将 NFT 转到买家
-        IERC721(nftContract).safeTransferFrom(address(this), sender, tokenId);
+        IERC721(nftContract).transferFrom(address(this), sender, tokenId);
 
         // 移除上架信息
         delete listings[listingId];
