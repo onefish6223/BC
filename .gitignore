@@ -5,7 +5,7 @@
 node_modules/
 package-lock.json
 yarn.lock
-
+.debugger/
 # 构建输出
 artifacts/
 cache/

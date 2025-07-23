@@ -64,12 +64,11 @@ contract MyNFTMarket is Ownable {
     ) external {
 
         // 确保调用者是代币合约
-        require(msg.sender == address(paymentToken), "Only token contract can call this");
+        // require(msg.sender == address(paymentToken), "Only token contract can call this");
         // 确保接收者是本合约
         require(recipient == address(this), "Invalid recipient");
         // 确保标识有效
         uint256 listingId = abi.decode(data,(uint256));
-
         
         Listing memory listing = listings[listingId];
         require(listing.price > 0, "This NFT is not for sale");
@@ -80,7 +79,7 @@ contract MyNFTMarket is Ownable {
         // 确保支付的金额 等于NFT的价格
         require(amount == price, "Invalid amount");
         // 从当前合约账户转账代币到卖家
-        paymentToken.transferFrom(address(this), seller, price);
+        paymentToken.transfer(seller, price);
         // 将 NFT 转到买家
         IERC721(nftContract).transferFrom(address(this), sender, tokenId);
 
