@@ -3,8 +3,9 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract TokenBank {
+contract Bank {
     // 存储的代币合约地址
+    //0xD67ee2ff8F2B5FFC0B7B8689b9e1626B70452C44
     IERC20 public token;
     
     // 记录每个地址的存款余额

@@ -8,13 +8,12 @@ interface IBank {
     function autoAssetTranfer() external;
 }
 
+//0x2Bf7e3D94292E9D313F9c79735ac61ECd17DE118
 contract AutoAssetTranferByCL is AutomationCompatibleInterface {
-    address public immutable token;
-    address public immutable bank;
+    address public constant token = 0xD67ee2ff8F2B5FFC0B7B8689b9e1626B70452C44;
+    address public constant bank = 0x2EBCf91ee8FCFBaC295e56976Fb5E03B77383DFC;
 
-    constructor(address _token, address _bank) {
-        token = _token;
-        bank = _bank;
+    constructor() {
     }
 
     function checkUpkeep(bytes calldata) external view override returns (bool upkeepNeeded , bytes memory){
